@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="ClosedXML" Version="0.104.0-rc1" />
+        <PackageReference Include="MediatR" Version="12.4.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-rc.1.24431.7" />
+        <PackageReference Include="Office.Interop.Excel" Version="12.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Application\Command\ProcessBonds\" />
+      <Folder Include="Application\Command\ProcessCDS\" />
+      <Folder Include="Application\Command\ProcessFundamentals\" />
+      <Folder Include="Application\Command\ProcessHolders\" />
+      <Folder Include="Application\Command\ProcessIndex\" />
+      <Folder Include="Application\Query\GetTickerList\" />
+      <Folder Include="Entrypoint\" />
+      <Folder Include="Infra\Repositorios\" />
+      <Folder Include="Output\Tickers\" />
+    </ItemGroup>
+
+</Project>

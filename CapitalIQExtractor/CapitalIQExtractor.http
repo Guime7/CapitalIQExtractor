@@ -1,0 +1,6 @@
+@CapitalIQExtractor_HostAddress = http://localhost:5264
+
+GET {{CapitalIQExtractor_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
