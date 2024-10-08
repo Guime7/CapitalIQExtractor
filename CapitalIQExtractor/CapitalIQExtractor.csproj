@@ -16,15 +16,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Command\ProcessBonds\" />
-      <Folder Include="Application\Command\ProcessCDS\" />
-      <Folder Include="Application\Command\ProcessFundamentals\" />
-      <Folder Include="Application\Command\ProcessHolders\" />
-      <Folder Include="Application\Command\ProcessIndex\" />
       <Folder Include="Application\Query\GetTickerList\" />
       <Folder Include="Entrypoint\" />
       <Folder Include="Infra\Repositorios\" />
-      <Folder Include="Output\Tickers\" />
+      <Folder Include="Output\" />
     </ItemGroup>
 
 </Project>

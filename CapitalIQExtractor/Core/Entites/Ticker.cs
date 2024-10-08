@@ -1,41 +1,37 @@
-﻿namespace CapitalIQExtractor.Core.Entites;
-using ClosedXML.Excel;
+﻿using ClosedXML.Excel;
+using Microsoft.VisualBasic;
+
+namespace CapitalIQExtractor.Core.Entites;
 
 public class Ticker
 {
-    public string ID { get; init; }
-    public string ISIN { get; init; }   
-    
-    public string FilePath { get; set; }
-    public FormulaResult Formulas(string id)
+    public string? TickerId { get; set; }
+    public List<MarketData>? Cotacao { get; set; }
+
+    public Ticker(List<MarketData> cotacao)
     {
-        return new FormulaResult
-        {
-            Price = $"CIQRANGE(\"{id}\", \"IQ_PRICEDATE\", EDATE(TODAY()-1,-24), TODAY()-1,,,\"DESC\",\"D\",\"DATA\")",
-            Data = $"CIQRANGE(\"{id}\", \"IQ_CLOSEPRICE\", EDATE(TODAY()-1,-24), TODAY()-1,,,\"DESC\",\"D\",\"PRICE\")"
-        };
+        Cotacao = cotacao;
     }
 
-    public void MontarExcel(string folderPath)
+    public class Builder
     {
-        string filePath = $"{folderPath}\\{ID}.xlsx";
-        
-        using (var workbook = new XLWorkbook())
-        {
-            var worksheet  = workbook.Worksheets.Add(ID);
+        public string TickerIdFormula { get; set; }
+        public string TickerPeriodFormula { get; init; }
+        public string TickerPriceFormula { get; init; }
+        private string ConstantePrefixoIsin { get; set; }
+        private static string ConstanteInitialDate { get; } = "TODAY()-1";
+        private static string ConstanteFinalDate { get; } = "EDATE(TODAY()-1,-24)";
 
-            worksheet.Cell("A1").FormulaA1 = Formulas(ID).Price;
-            worksheet.Cell("B1").FormulaA1 = Formulas(ID).Data;
-            
-            workbook.SaveAs(filePath, true); // Overwrite if exists
+        public Builder(string isin)
+        {
+            ConstantePrefixoIsin = $"I_{isin}";
+
+            TickerIdFormula = $"=SPG(\"{ConstantePrefixoIsin}\", \"SP_EXCHANGE_TICKER\")";
+
+            TickerPeriodFormula =
+                $"CIQRANGE(\"{ConstantePrefixoIsin}\", \"IQ_PRICEDATE\", {ConstanteFinalDate}, {ConstanteInitialDate},,,\"DESC\",\"D\",\"{nameof(TickerPeriodFormula)}\")";
+            TickerPriceFormula =
+                $"CIQRANGE(\"{ConstantePrefixoIsin}\", \"IQ_CLOSEPRICE\", {ConstanteFinalDate}, {ConstanteInitialDate},,,\"DESC\",\"D\",\"{nameof(TickerPriceFormula)}\")";
         }
-        
-        FilePath = filePath;
     }
-}
-
-public class FormulaResult
-{
-    public string Price { get; set; }
-    public string Data { get; set; }
 }
